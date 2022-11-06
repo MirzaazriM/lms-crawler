@@ -1,4 +1,4 @@
-## How to user?
+## How to use?
 
 1. In LMS project disable VerifyCsrfToken middleware at app/Console/Kernerl.php
 2. In this project run command: php artisan crawl
