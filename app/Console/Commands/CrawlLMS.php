@@ -45,12 +45,13 @@ class CrawlLMS extends Command
     public function handle()
     {
 
-        $url = $this->ask('Enter URL starting point (with http/s): ');
-        $username = $this->ask('Enter username for authentication: ');
-        $password = $this->ask('Enter password for authentication: ');
+        $url = 'http://nectar-test.com/login'; //$this->ask('Enter URL starting point (with http/s): ');
+        $urlSource = 'http://nectar-test.com';
+        $username = 'administrator'; // $this->ask('Enter username for authentication: ');
+        $password = 'learncenter'; // $this->ask('Enter password for authentication: ');
 
         $client = new \GuzzleHttp\Client(['cookies' => true]);
-        $client->request('POST', $url, [
+        $response = $client->request('POST', $url, [
                 'form_params' => [
                     'username' => $username,
                     'password' => $password
@@ -67,12 +68,12 @@ class CrawlLMS extends Command
             ->ignoreRobots()
             // ->setParseableMimeTypes(['text/html', 'text/plain'])
             ->setCrawlObserver(new CustomCrawlerObserver())
-            ->setCrawlProfile(new \Spatie\Crawler\CrawlInternalUrls($url))
+            ->setCrawlProfile(new \Spatie\Crawler\CrawlInternalUrls($urlSource))
             ->setMaximumResponseSize(2048 * 1024 * 2) // 4 MB maximum
             ->setMaximumCrawlCount(10000)
             // ->setConcurrency(1) // all urls will be crawled one by one
             ->setDelayBetweenRequests(50)
-            ->startCrawling($url);
+            ->startCrawling($urlSource);
 
         return true;
     }
